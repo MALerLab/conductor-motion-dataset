@@ -10,7 +10,7 @@ six decades, with quality-control metadata, the identification code, and
 trained classifier weights.
 
 ![From in-the-wild concert video to conductor skeletons](assets/teaser.png)
-*Left: a source frame (face blurred). Right: the extracted whole-body skeleton — the release withholds facial landmarks entirely.*
+*Left: a source frame (face blurred). Right: an example use of the released skeletons — the 51 joints (nose, arms, hands, pelvis) used in the identification experiments. The release itself carries all 133 keypoints, with facial landmarks withheld.*
 
 | | |
 |---|---|
