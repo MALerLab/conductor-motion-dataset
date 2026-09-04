@@ -67,6 +67,9 @@ is per-joint detector confidence, *not* depth.
 
 ## Quickstart
 
+Requires Python 3.11+ with `pip install -r requirements.txt`
+(numpy, torch, scikit-learn). A GPU is recommended for step 3.
+
 ```bash
 # 1. unpack npz packs into per-run directories  → skeletons/<Conductor>/<run>/
 python code/scripts/unpack_data.py
@@ -136,12 +139,16 @@ re-running pose estimation.
 
 ## Citation
 
+The companion paper is currently under review (ISMIR 2026 Late-Breaking Demo);
+this entry will be updated upon publication. Until then, please cite:
+
 ```bibtex
-@inproceedings{kim2026conductor,
-  title  = {Who Is Conducting? A Conductor Skeleton Dataset and
-            Identifiability Study from In-the-Wild Orchestral Concert Video},
-  author = {Kim, Jiyun and Jeong, Dasaem},
-  booktitle = {ISMIR Late-Breaking Demo},
-  year   = {2026}
+@misc{kim2026conductor,
+  title        = {Who Is Conducting? A Conductor Skeleton Dataset and
+                  Identifiability Study from In-the-Wild Orchestral Concert Video},
+  author       = {Kim, Jiyun and Jeong, Dasaem},
+  year         = {2026},
+  howpublished = {\url{https://github.com/franziyun/conductor-motion-dataset}},
+  note         = {Submitted to the ISMIR 2026 Late-Breaking Demo session}
 }
 ```

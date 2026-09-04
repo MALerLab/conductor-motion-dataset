@@ -1,0 +1,5 @@
+# Quickstart dependencies (unpack -> normalize -> reproduce -> probes).
+# Tested with Python 3.11.
+numpy>=1.24
+torch>=2.0
+scikit-learn>=1.3
