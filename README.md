@@ -94,8 +94,16 @@ PYTHONPATH=code/src python code/scripts/train_pilot.py \
 
 # 4. static-frame probe (single-frame model; measures static cues alone)
 PYTHONPATH=code/src python code/scripts/static_frame_probe.py \
-    --csv data/run_index.csv
+    --csv data/run_index.csv \
+    --session-merges data/experiments/session_merges_perfonly_20260827.csv \
+    --dup-drops data/experiments/audio_same_20260826.csv \
+    --ood-exclude data/experiments/rehearsal_ood_20260826.csv
 ```
+
+Step 3 reproduces the paper's corpus and windows exactly (2,973 evaluation
+windows over 249 videos); accuracy matches to within GPU run-to-run noise.
+The probe in step 4 uses scikit-learn models, whose exact numbers shift by a
+couple of points across scikit-learn versions.
 
 Windows are 3 s (75 frames at 25 fps); segments shorter than 3 s but with at
 least 1.5 s of real frames are zero-padded, and the padded frames are excluded
