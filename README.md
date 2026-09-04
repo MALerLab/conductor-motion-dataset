@@ -1,20 +1,25 @@
 # Conductor Motion Dataset — skeletons, code, and weights
 
-Companion release for *"Conductor Identity in Motion: A Skeleton Corpus and
-Identifiability Study From In-the-Wild Concert Video"* (ISMIR 2026 LBD submission).
+Companion release for *"Who Is Conducting? A Conductor Skeleton Dataset and
+Identifiability Study from In-the-Wild Orchestral Concert Video"* (ISMIR 2026
+LBD submission).
 
-2D skeleton sequences of five orchestra conductors — **Bernstein, Haitink,
-Abbado, Mehta, Dudamel** — extracted from in-the-wild concert videos spanning
-1959–2021, with quality-control metadata, the identification code, and trained
-classifier weights.
+2D skeleton sequences of five orchestra conductors — **Abbado, Bernstein,
+Dudamel, Haitink, Mehta** — extracted from in-the-wild concert videos spanning
+six decades, with quality-control metadata, the identification code, and
+trained classifier weights.
 
 | | |
 |---|---|
-| Accepted runs (human-verified identity) | 1,318 |
-| Recordings / sessions | 267 / 195 (sessions merged by title match + audio cross-correlation, incl. duplicate-upload dedup) |
-| Total frames (native fps) | ~317k (~3.2 h) |
+| Released runs (human-verified identity) | 1,447 (275 videos, ~328k frames, ~3.3 h) |
+| Paper corpus (subset used in the experiments) | 1,300 runs · 249 videos · 218 performances · 2.7 h of curated segments |
 | Keypoints | 133 (COCO-WholeBody, RTMPose) — facial 68 zeroed |
-| Identification accuracy (session-disjoint, stratified group k-fold, 5 seeds) | 0.715±0.010 per 2-s window (chance 0.302) · 0.730±0.011 per shot |
+| Identification accuracy (paper protocol, 5 conductors) | **74.3 ± 1.2 %** per 3-s window (majority-class baseline 21.9 %) · 77.3 ± 2.1 % per clip · macro F1 0.740 |
+
+The paper corpus is marked in `data/run_index.csv` via the `in_paper_corpus`
+column; runs excluded from it carry the reason in `excluded_as`
+(`duplicate` = same take uploaded more than once — only the copy with the
+most usable material is kept in the experiments).
 
 ## What is in the box
 
@@ -22,25 +27,31 @@ classifier weights.
 data/
   packs/<Conductor>_XX.npz   compressed skeletons, one array per run (T,133,3)=(x,y,conf)
   meta_<Conductor>.json      per-run QC + provenance metadata
-  run_index.csv              run catalog (also serves as the training CSV)
+  run_index.csv              run catalog (also serves as the training CSV);
+                             in_paper_corpus / excluded_as mark the paper subset
   recordings_meta.csv        per-video titles and recording-year fields
   canonical_bones.npy        canonical bone lengths (needed for normalization)
   experiments/
-    segver_20260813.csv           segment-level identity audit (contaminated segments excluded)
-    session_merges_v10_20260826.csv  session merges — declared title/composer/cycle rule
-                                   + audio cross-correlation confirmation (see paper §3)
-    audio_same_20260826.csv       true-duplicate video clusters (re-uploads/excerpts) to
-                                   drop down to one representative per cluster
-    rehearsal_ood_20260826.csv    held-out out-of-distribution videos (rehearsal footage) —
-                                   pass --ood-exclude at training time to keep these out
+    segver_20260813.csv                segment-level identity audit
+                                       (contaminated segments excluded in the paper)
+    session_merges_perfonly_20260827.csv  same-performance groups with per-row evidence
+                                       (title / audio overlap / archival research);
+                                       folds never split a group
+    audio_same_20260826.csv            true-duplicate clusters found by audio
+                                       cross-correlation (kept one copy each)
+    rehearsal_ood_20260826.csv         held-out out-of-distribution videos
+                                       (rehearsals etc.) — blocked at training time
 code/
   src/conductor_classifier/  model, graph, channels, sessions, windows, QC ...
   scripts/                   unpack_data.py, normalize_skeletons.py,
-                             train_pilot.py (session-disjoint CV eval), train_final_model.py,
-                             probe_pretrained.py (MotionBERT / ST-GCN++ baselines),
-                             verify_repertoire.py, verify_conf_era_proxy.py, bridge_test.py
+                             train_pilot.py (cross-validated evaluation),
+                             train_final_model.py, static_frame_probe.py,
+                             probe_pretrained.py, verify_repertoire.py,
+                             verify_conf_era_proxy.py, bridge_test.py
 weights/
-  resgcn_5class.pt           ResGCN (~320k params) trained on all accepted runs
+  resgcn_5class.pt           ResGCN (~0.32M params) trained on all paper-corpus runs
+                             under the paper protocol (T=75, zero-pad + masked
+                             pooling, joint+bone-direction channels)
 ```
 
 Raw video and audio are **not** included (copyright). `recordings_meta.csv`
@@ -60,37 +71,35 @@ is per-joint detector confidence, *not* depth.
 # 1. unpack npz packs into per-run directories  → skeletons/<Conductor>/<run>/
 python code/scripts/unpack_data.py
 
-# 2. normalize (25 fps, 6 Hz low-pass, canonical bone lengths, fore/depth-preserving)
+# 2. normalize (25 fps, 6 Hz low-pass, canonical bone lengths, foreshortening-preserving)
 PYTHONPATH=code/src python code/scripts/normalize_skeletons.py \
     --root skeletons --mode bone --fore --canonical data/canonical_bones.npy
 
-# 3. reproduce the session-disjoint experiment (~10 min on one GPU)
+# 3. reproduce the paper's evaluation (one seed; the paper reports mean±SD over seeds 0–4)
 PYTHONPATH=code/src python code/scripts/train_pilot.py \
-    --csv data/run_index.csv --joints both --no-depth --tag reproduce \
+    --csv data/run_index.csv --root skeletons \
+    --joints both --use pos,vel,acc,bonedir \
+    --T 75 --pad zeromask --min-real-frac 0.5 --supcon 0 \
     --seg-verdicts data/experiments/segver_20260813.csv \
-    --session-merges data/experiments/session_merges_v10_20260826.csv \
+    --session-merges data/experiments/session_merges_perfonly_20260827.csv \
     --dup-drops data/experiments/audio_same_20260826.csv \
-    --ood-exclude data/experiments/rehearsal_ood_20260826.csv
+    --ood-exclude data/experiments/rehearsal_ood_20260826.csv \
+    --seed 0 --tag reproduce
 
-# 4. repertoire controls (matched composers, shared pieces) from the saved predictions
-PYTHONPATH=code/src python code/scripts/verify_repertoire.py \
-    data/experiments/reproduce.json \
-    --session-merges data/experiments/session_merges_v10_20260826.csv
+# 4. static-frame probe (single-frame model; measures static cues alone)
+PYTHONPATH=code/src python code/scripts/static_frame_probe.py \
+    --csv data/run_index.csv
 ```
 
-Windows are sampled on the fly (2 s, random phase); evaluation folds are
-**session-disjoint** (stratified group k-fold) — duplicate/split uploads of one
-performance are merged into one session by a declared title/composer/cycle
-rule plus audio cross-correlation, true-duplicate re-uploads are deduplicated
-via `audio_same_20260826.csv`, and held-out rehearsal footage is blocked at
-training time via `--ood-exclude`. Contaminated segments (skeleton switching
-to a nearby musician, ~1.9% of the corpus by duration) are excluded via
-`segver_20260813.csv`. See the paper for why.
-
-`train_pilot.py` also accepts `--pad {none,zero,zeromask}` to salvage segments
-shorter than the window length instead of discarding them (see `--help`) —
-an evaluation in progress on top of the settings above; not yet folded into
-the headline number.
+Windows are 3 s (75 frames at 25 fps); segments shorter than 3 s but with at
+least 1.5 s of real frames are zero-padded, and the padded frames are excluded
+from pooling by masking. Evaluation folds are assigned at the level of
+**performances**: videos confirmed to come from the same concert — by title,
+by partially overlapping audio, or by archival research — are grouped in
+`session_merges_perfonly_20260827.csv` (every row carries its evidence, and
+every merge was finalized by a human), and a group is never split across
+folds. Contaminated segments (skeleton switching to a nearby musician) are
+excluded via `segver_20260813.csv`. See the paper for the rationale.
 
 ### Using the trained classifier
 
@@ -102,23 +111,21 @@ from conductor_classifier import graph as G, channels as CH
 ck = torch.load("weights/resgcn_5class.pt", map_location="cpu")
 model = ResGCN(ck["input_channels"], len(ck["labels"]), G.adjacency(ck["joints"]))
 model.load_state_dict(ck["state_dict"]); model.eval()
-# input: a (50,133,3) window of *normalized* skeleton  →  CH.build_channels(...)
+# input: a (75,133,3) window of *normalized* skeleton  →  CH.build_channels(...)
 ```
 
-Note: `weights/resgcn_5class.pt` is trained on **all** accepted runs
-(contaminated segments excluded; the usual convention for released
-checkpoints), and predates the session-merge/dedup/OOD-guard update described
-above — a refreshed checkpoint trained under the current protocol is planned
-for a future release. The 0.715 / 0.730 figures come from the session-disjoint
-evaluation protocol, not from this specific checkpoint.
+`weights/resgcn_5class.pt` is trained on **all** paper-corpus runs under the
+paper protocol (the usual convention for released checkpoints). The
+74.3 % / 77.3 % figures come from the cross-validated protocol above, not from
+this single checkpoint; the checkpoint's `cv_reference` field records this.
 
 ## QC philosophy (why the data looks the way it does)
 
-Pose spikes and identity switches are detected and only clean segments ≥2 s
-are used, but **image quality is never a reason to discard**: in a corpus
-spanning six decades, quality is a proxy for recording era, and filtering on
-it would curate the dataset by era. QC decisions live in metadata only —
-thresholds can be revised without re-running pose estimation.
+Pose spikes and identity switches are detected and cut, but **image quality is
+never a reason to discard**: in a corpus spanning six decades, quality is a
+proxy for the recording era, and filtering on it would curate the dataset by
+era. QC decisions live in metadata only — thresholds can be revised without
+re-running pose estimation.
 
 ## License
 
@@ -131,8 +138,8 @@ thresholds can be revised without re-running pose estimation.
 
 ```bibtex
 @inproceedings{kim2026conductor,
-  title  = {Conductor Identity in Motion: A Skeleton Corpus and
-            Identifiability Study From In-the-Wild Concert Video},
+  title  = {Who Is Conducting? A Conductor Skeleton Dataset and
+            Identifiability Study from In-the-Wild Orchestral Concert Video},
   author = {Kim, Jiyun and Jeong, Dasaem},
   booktitle = {ISMIR Late-Breaking Demo},
   year   = {2026}

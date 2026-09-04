@@ -1,0 +1,87 @@
+conductor,video_id,group,evidence
+Bernstein,40vp0Veqglg,bern_b6_1978,audio ncc 0.98
+Bernstein,rO8MnwcvSVk,bern_b6_1978,audio ncc 0.98
+Mehta,FMEL6z9Qir8,mehta_b8_ipo,audio ncc 0.88/0.59
+Mehta,H9a5K1p0QZE,mehta_b8_ipo,audio ncc 0.88/0.59
+Abbado,6OZ8pngQePI,abbado_m1_1989,audio ncc 0.83/0.56
+Abbado,T4Zxjk7eYS4,abbado_m1_1989,audio ncc 0.83/0.56
+Abbado,A6QoP6-bnR8,abbado_m1_1989,audio ncc 0.67 native + title sim 0.83
+Abbado,6OZ8pngQePI,audio_g01,audio sweep 20260814
+Abbado,A6QoP6-bnR8,audio_g01,audio sweep 20260814
+Abbado,CHz_O9tSjlk,audio_g01,audio sweep 20260814
+Abbado,PLFog5wjYEs,audio_g01,audio sweep 20260814
+Abbado,T4Zxjk7eYS4,audio_g01,audio sweep 20260814
+Abbado,4XbHLFkg_Mw,audio_g02,audio sweep 20260814
+Abbado,RbLlA4Ee4hU,audio_g02,audio sweep 20260814
+Abbado,a7VdBXeRhdA,audio_g02,audio sweep 20260814
+Abbado,P56JLnQrS98,audio_g03,audio sweep 20260814
+Abbado,n6feKBSSfUg,audio_g03,audio sweep 20260814
+Abbado,-K8gmmKd5HM,audio_g04,audio sweep 20260814
+Abbado,SgSNgzA37To,audio_g04,audio sweep 20260814
+Abbado,D_JyDU1423Y,audio_g05,audio sweep 20260814
+Abbado,K1BHmPhZwpY,audio_g05,audio sweep 20260814
+Abbado,PD9B4qi3mNM,audio_g05,audio sweep 20260814
+Abbado,vOvXhyldUko,audio_g05,audio sweep 20260814
+Bernstein,9KSESLJ0LWA,audio_g06,audio sweep 20260814
+Bernstein,Bj6KLv7kv2Q,audio_g06,audio sweep 20260814
+Bernstein,MFkLJzd7CH8,audio_g06,audio sweep 20260814
+Bernstein,56qZblncQrs,audio_g07,audio sweep 20260814
+Bernstein,bXEldU1UC70,audio_g07,audio sweep 20260814
+Bernstein,IS8FO6DEwfU,audio_g08,audio sweep 20260814
+Bernstein,iYgirjU-9UE,audio_g08,audio sweep 20260814
+Haitink,1KSK4a1YHwg,audio_g09,audio sweep 20260814
+Haitink,Tbtenpm8_Wo,audio_g09,audio sweep 20260814
+Haitink,CjnbUmbHO9o,audio_g10,audio sweep 20260814
+Haitink,pK_X0QuZuZc,audio_g10,audio sweep 20260814
+Mehta,L4PB-Wh3UxA,audio_g11,audio sweep 20260814
+Mehta,ZaWb14Nn0Ss,audio_g11,audio sweep 20260814
+Mehta,ikhuN-LcJKc,audio_g11,audio sweep 20260814
+Mehta,leeUj6p5t-c,audio_g11,audio sweep 20260814
+Mehta,WJpzkMrGLkM,audio_g12,audio sweep 20260814
+Mehta,iBYW0H7t8M8,audio_g12,audio sweep 20260814
+Mehta,FMEL6z9Qir8,audio_g13,audio sweep 20260814
+Mehta,H9a5K1p0QZE,audio_g13,audio sweep 20260814
+Mehta,kSOxBGu2Ms0,audio_g13,audio sweep 20260814
+Mehta,QKzF_A1zXzQ,audio_g14,audio sweep 20260814
+Mehta,noZVSgbPtbg,audio_g14,audio sweep 20260814
+Mehta,nBsl7D9i6aM,audio_g15,audio sweep 20260814
+Mehta,w5N4WQOkTX4,audio_g15,audio sweep 20260814
+Abbado,ZyQmdXnv3Pg,perf_ZyQmdXnv3Pg,"human adjudication (same performance confirmed): both videos are the Accentus Lucerne Easter 2010 live recording (Simon Bolivar, Tchaikovsky No. 6, ACC20101); the description of video b links directly to a as 'Full-Length concert' — same performance"
+Abbado,QydpBLUyx6c,perf_ZyQmdXnv3Pg,"human adjudication (same performance confirmed): both videos are the Accentus Lucerne Easter 2010 live recording (Simon Bolivar, Tchaikovsky No. 6, ACC20101); the description of video b links directly to a as 'Full-Length concert' — same performance"
+Mehta,Wn3BTsUAIyc,perf_dfhEx-J2cWk,human adjudication (same performance confirmed): Belgrade Philharmonic official site (bgf.rs): the 2024-10-11/12 Kolarac Hall Mehta gala program was Figaro Overture + Mozart No. 40 + Schubert No. 9 — per-piece uploads of the same filmed performance.
+Mehta,dfhEx-J2cWk,perf_dfhEx-J2cWk,human adjudication (same performance confirmed): Belgrade Philharmonic official site (bgf.rs): the 2024-10-11/12 Kolarac Hall Mehta gala program was Figaro Overture + Mozart No. 40 + Schubert No. 9 — per-piece uploads of the same filmed performance.
+Mehta,SvyxnUtqlvY,perf_xxYui2Z6uLs,"human adjudication (same performance confirmed): IPO Beethoven No. 7 (uploaded 2012), date unknown — could not confirm whether it is the same program as the 2010-11-10 No. 6 performance. | human adjudication (same performance confirmed): both are IPO Beethoven No. 6, but no concert records were found to confirm they are the same live performance."
+Mehta,xxYui2Z6uLs,perf_xxYui2Z6uLs,"human adjudication (same performance confirmed): IPO Beethoven No. 7 (uploaded 2012), date unknown — could not confirm whether it is the same program as the 2010-11-10 No. 6 performance. | human adjudication (same performance confirmed): both are IPO Beethoven No. 6, but no concert records were found to confirm they are the same live performance."
+Mehta,08FxlHVcofc,perf_xxYui2Z6uLs,"human adjudication (same performance confirmed): IPO Beethoven No. 7 (uploaded 2012), date unknown — could not confirm whether it is the same program as the 2010-11-10 No. 6 performance. | human adjudication (same performance confirmed): both are IPO Beethoven No. 6, but no concert records were found to confirm they are the same live performance."
+Mehta,KbNGklNz8Yk,perf_xxYui2Z6uLs,"human adjudication (same performance confirmed): IPO Beethoven No. 7 (uploaded 2012), date unknown — could not confirm whether it is the same program as the 2010-11-10 No. 6 performance. | human adjudication (same performance confirmed): both are IPO Beethoven No. 6, but no concert records were found to confirm they are the same live performance."
+Mehta,q5YhuIP_l9Y,perf_xxYui2Z6uLs,"human adjudication (same performance confirmed): IPO Beethoven No. 7 (uploaded 2012), date unknown — could not confirm whether it is the same program as the 2010-11-10 No. 6 performance. | human adjudication (same performance confirmed): both are IPO Beethoven No. 6, but no concert records were found to confirm they are the same live performance."
+Dudamel,LT0lf8CFfzI,perf_vFPxYVYDmow,"human adjudication (same performance confirmed): at the 2017-03-13 Barcelona Palau concert, Beethoven Nos. 5 and 6 were performed on the same program, and that live performance was released as a single concert video (Prime Video/palaumusica.cat)."
+Dudamel,SSypujlLlNI,perf_vFPxYVYDmow,"human adjudication (same performance confirmed): at the 2017-03-13 Barcelona Palau concert, Beethoven Nos. 5 and 6 were performed on the same program, and that live performance was released as a single concert video (Prime Video/palaumusica.cat)."
+Dudamel,vFPxYVYDmow,perf_vFPxYVYDmow,"human adjudication (same performance confirmed): at the 2017-03-13 Barcelona Palau concert, Beethoven Nos. 5 and 6 were performed on the same program, and that live performance was released as a single concert video (Prime Video/palaumusica.cat)."
+Haitink,n_H6abRmQ_o,perf_wYVvYtg6gVE,human adjudication (same performance confirmed): Egmont and Leonore No. 3 (Haitink/LPO) both lack performance date/venue information — identification failed.
+Haitink,wYVvYtg6gVE,perf_wYVvYtg6gVE,human adjudication (same performance confirmed): Egmont and Leonore No. 3 (Haitink/LPO) both lack performance date/venue information — identification failed.
+Abbado,AUnKeRz5n0c,perf_GmX0UbZlqZk,human adjudication (same performance confirmed): 2011-08-19 KKL Lucerne live-broadcast program 'Mozart Haffner + Bruckner No. 5' (The Wagnerian announcement); both videos are the same Accentus 2011 production — same evening.
+Abbado,GmX0UbZlqZk,perf_GmX0UbZlqZk,human adjudication (same performance confirmed): 2011-08-19 KKL Lucerne live-broadcast program 'Mozart Haffner + Bruckner No. 5' (The Wagnerian announcement); both videos are the same Accentus 2011 production — same evening.
+Abbado,4USr2WgSOuo,perf_4USr2WgSOuo,"human adjudication (same performance confirmed): DG official Beethoven No. 7 (Rome Santa Cecilia cycle), excerpts of movements 2 and 4 — per the DCH listing, No. 7 was recorded at a single performance on 2001-02-08; different movements of the same performance."
+Abbado,0x5ueaz3D9c,perf_4USr2WgSOuo,"human adjudication (same performance confirmed): DG official Beethoven No. 7 (Rome Santa Cecilia cycle), excerpts of movements 2 and 4 — per the DCH listing, No. 7 was recorded at a single performance on 2001-02-08; different movements of the same performance."
+Mehta,sDxdLuxtuxs,perf_sDxdLuxtuxs,human adjudication (same performance confirmed): The Violin Channel: the 2013-09-07 Srinagar Shalimar Gardens 'Ehsaas-e-Kashmir' concert program included both Beethoven No. 5 and the Kashmiri fusion piece — same performance.
+Mehta,KU_l3E9pC8Y,perf_sDxdLuxtuxs,human adjudication (same performance confirmed): The Violin Channel: the 2013-09-07 Srinagar Shalimar Gardens 'Ehsaas-e-Kashmir' concert program included both Beethoven No. 5 and the Kashmiri fusion piece — same performance.
+Bernstein,CplmVMyPH80,perf_CplmVMyPH80,"human adjudication (same performance confirmed): per DG/Unitel complete-cycle recording data, No. 1 (Op.21) and No. 6 (Op.68) were recorded and filmed together in the same November 9-12, 1978 Musikverein concert set — two pieces from the same program."
+Bernstein,40vp0Veqglg,perf_CplmVMyPH80,"human adjudication (same performance confirmed): per DG/Unitel complete-cycle recording data, No. 1 (Op.21) and No. 6 (Op.68) were recorded and filmed together in the same November 9-12, 1978 Musikverein concert set — two pieces from the same program."
+Bernstein,rO8MnwcvSVk,perf_CplmVMyPH80,"human adjudication (same performance confirmed): per DG/Unitel complete-cycle recording data, No. 1 (Op.21) and No. 6 (Op.68) were recorded and filmed together in the same November 9-12, 1978 Musikverein concert set — two pieces from the same program."
+Abbado,8NdeNCsF2K8,perf_SExR2h20HlQ,"human adjudication (same performance confirmed): DCH listing: Beethoven Nos. 2 and 5 both recorded in Rome on 2001-02-12 — same evening. Caution: the Mendelssohn No. 2 mixed into bundle b is a separate Berlin 2002-02-09 performance. | human adjudication (same performance confirmed): a (DG excerpt) Beethoven No. 5 = Rome 2001-02-12 (DCH); the medici Beethoven No. 5 in bundle b also explicitly states the same 'Rome Santa Cecilia 2001' live performance. Caution: bundle b also includes Lucerne 2004 Mahler No. 5, etc. "
+Abbado,SExR2h20HlQ,perf_SExR2h20HlQ,"human adjudication (same performance confirmed): DCH listing: Beethoven Nos. 2 and 5 both recorded in Rome on 2001-02-12 — same evening. Caution: the Mendelssohn No. 2 mixed into bundle b is a separate Berlin 2002-02-09 performance. | human adjudication (same performance confirmed): a (DG excerpt) Beethoven No. 5 = Rome 2001-02-12 (DCH); the medici Beethoven No. 5 in bundle b also explicitly states the same 'Rome Santa Cecilia 2001' live performance. Caution: bundle b also includes Lucerne 2004 Mahler No. 5, etc. "
+Abbado,msbZuhrNiEo,perf_SExR2h20HlQ,"human adjudication (same performance confirmed): DCH listing: Beethoven Nos. 2 and 5 both recorded in Rome on 2001-02-12 — same evening. Caution: the Mendelssohn No. 2 mixed into bundle b is a separate Berlin 2002-02-09 performance. | human adjudication (same performance confirmed): a (DG excerpt) Beethoven No. 5 = Rome 2001-02-12 (DCH); the medici Beethoven No. 5 in bundle b also explicitly states the same 'Rome Santa Cecilia 2001' live performance. Caution: bundle b also includes Lucerne 2004 Mahler No. 5, etc. "
+Abbado,81AFdWXLNCU,perf_uEX8xV6PxW8,human adjudication (same performance confirmed): metadata contradiction: year mismatch ['2009'] vs ['2014']
+Abbado,uEX8xV6PxW8,perf_uEX8xV6PxW8,human adjudication (same performance confirmed): metadata contradiction: year mismatch ['2009'] vs ['2014']
+Bernstein,r88EnGeiJrE,perf_to_aVqJjzZE,"human adjudication (same performance confirmed): per DG/Unitel complete-cycle recording data, No. 4 (Op.60) and No. 7 (Op.92) were recorded and filmed together in the same October 31 - November 2, 1978 Musikverein concert set — two pieces from the same program."
+Bernstein,to_aVqJjzZE,perf_to_aVqJjzZE,"human adjudication (same performance confirmed): per DG/Unitel complete-cycle recording data, No. 4 (Op.60) and No. 7 (Op.92) were recorded and filmed together in the same October 31 - November 2, 1978 Musikverein concert set — two pieces from the same program."
+Abbado,1Jw6wpNLM9E,perf_mhYCaQkbkyw,"human adjudication (same performance confirmed): b is a medici Lucerne 2012 Mozart Requiem Lacrimosa excerpt; the full-length video a also matches the 2012 live performance (elderly Abbado, KKL stage; inconsistent with the 1999 Salzburg Cathedral performance) — re-upload of the same performance"
+Abbado,mhYCaQkbkyw,perf_mhYCaQkbkyw,"human adjudication (same performance confirmed): b is a medici Lucerne 2012 Mozart Requiem Lacrimosa excerpt; the full-length video a also matches the 2012 live performance (elderly Abbado, KKL stage; inconsistent with the 1999 Salzburg Cathedral performance) — re-upload of the same performance"
+Haitink,fe1pB9KqHRg,perf_fe1pB9KqHRg,"human adjudication (same performance confirmed): 2009-03 Haitink/RCO 80th-birthday program 'Haffner + La Mer + Beethoven No. 7' (Classical Source); the a Beethoven No. 7 is this program's 2009-03-12 Amsterdam AVRO recording, "
+Haitink,Rd0HnxWm5CY,perf_fe1pB9KqHRg,"human adjudication (same performance confirmed): 2009-03 Haitink/RCO 80th-birthday program 'Haffner + La Mer + Beethoven No. 7' (Classical Source); the a Beethoven No. 7 is this program's 2009-03-12 Amsterdam AVRO recording, "
+Haitink,SRwDdZ7Rlgo,perf_fe1pB9KqHRg,"human adjudication (same performance confirmed): 2009-03 Haitink/RCO 80th-birthday program 'Haffner + La Mer + Beethoven No. 7' (Classical Source); the a Beethoven No. 7 is this program's 2009-03-12 Amsterdam AVRO recording, "
+Haitink,YmNxqMxZoRk,perf_fe1pB9KqHRg,"human adjudication (same performance confirmed): 2009-03 Haitink/RCO 80th-birthday program 'Haffner + La Mer + Beethoven No. 7' (Classical Source); the a Beethoven No. 7 is this program's 2009-03-12 Amsterdam AVRO recording, "
+Haitink,aU9vTFk2HFI,perf_fe1pB9KqHRg,"human adjudication (same performance confirmed): 2009-03 Haitink/RCO 80th-birthday program 'Haffner + La Mer + Beethoven No. 7' (Classical Source); the a Beethoven No. 7 is this program's 2009-03-12 Amsterdam AVRO recording, "
+Bernstein,VmWrfN0hQSQ,moscow1959_bern,"audio fragment alignment (5 fragments, offset 644s) + same performance per titles — same evening"
+Bernstein,KUnnEH7yxyc,moscow1959_bern,"audio fragment alignment (5 fragments, offset 644s) + same performance per titles — same evening"
