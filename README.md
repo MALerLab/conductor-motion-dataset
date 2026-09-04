@@ -9,6 +9,9 @@ Dudamel, Haitink, Mehta** — extracted from in-the-wild concert videos spanning
 six decades, with quality-control metadata, the identification code, and
 trained classifier weights.
 
+![From in-the-wild concert video to conductor skeletons](assets/teaser.png)
+*Left: a source frame (face blurred). Right: the extracted whole-body skeleton — the release withholds facial landmarks entirely.*
+
 | | |
 |---|---|
 | Released runs (human-verified identity) | 1,447 (275 videos, ~328k frames, ~3.3 h) |
