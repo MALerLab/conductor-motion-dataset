@@ -114,7 +114,7 @@ import torch
 from conductor_classifier.resgcn import ResGCN
 from conductor_classifier import graph as G, channels as CH
 
-ck = torch.load("weights/resgcn_5class.pt", map_location="cpu")
+ck = torch.load("weights/resgcn_5class.pt", map_location="cpu", weights_only=True)
 model = ResGCN(ck["input_channels"], len(ck["labels"]), G.adjacency(ck["joints"]))
 model.load_state_dict(ck["state_dict"]); model.eval()
 # input: a (75,133,3) window of *normalized* skeleton  →  CH.build_channels(...)
