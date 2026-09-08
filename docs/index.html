@@ -1,0 +1,325 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Who Is Conducting?</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{--ink:#1c1c28;--sub:#666a75;--bg:#fafafa;--card:#fff;--acc:#2e865f;--line:#e5e6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.sans{font-family:-apple-system,'Segoe UI',Helvetica,sans-serif}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+header{background:#14141e;color:#fff;padding:64px 0 48px}
+header h1{font-size:44px;margin:0 0 10px}
+header p.tag{color:#b9bdc9;font-size:19px;max-width:640px;margin:0 0 22px}
+.btn{display:inline-block;padding:9px 16px;border:1px solid #4a4a5a;border-radius:8px;color:#fff;
+     text-decoration:none;font-size:14.5px;margin-right:8px}
+.btn.primary{background:var(--acc);border-color:var(--acc)}
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+h2{font-size:28px;margin:0 0 6px} .lede{color:var(--sub);margin:0 0 22px;font-size:16.5px}
+.teaser{width:100%;border-radius:10px;margin-top:28px}
+.row{display:flex;gap:18px;flex-wrap:wrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+#plot{height:520px}
+.ctrl{font-size:14.5px;margin-bottom:10px}
+.ctrl select,.ctrl button{font:inherit;padding:4px 8px;margin:0 10px 6px 4px}
+.pairbtn{border:1px solid var(--line);background:#fff;border-radius:7px;cursor:pointer}
+.pairbtn.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+canvas.skel{background:#14100c;border-radius:8px;width:100%}
+.note{font-size:13.5px;color:var(--sub)}
+table{border-collapse:collapse;width:100%;font-size:14px;background:#fff}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#f0f1f4} td.n{text-align:center;white-space:nowrap}
+.quizopt{font:inherit;padding:8px 14px;margin:4px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer}
+.quizopt.pick{outline:2px solid var(--acc)}
+.quizopt.right{background:#e2f3e9;border-color:var(--acc)}
+.quizopt.wrong{background:#fbe4e0;border-color:#c56}
+.stat{font-size:30px;color:var(--acc);font-weight:bold}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+footer{padding:44px 0;color:var(--sub);font-size:14px}
+code{background:#eef0f3;padding:1px 5px;border-radius:4px;font-size:13px}
+a{color:var(--acc)}
+</style></head><body>
+
+<header><div class="wrap">
+ <h1>Who Is Conducting?</h1>
+ <p class="tag">Five conductors, six decades of concert film, no pixels, no faces, no body shape —
+ can motion alone tell us who is on the podium? <span class="sans" style="color:#7ee0b0">A skeleton
+ dataset and identifiability study (ISMIR 2026 LBD submission).</span></p>
+ <a class="btn primary" href="https://github.com/franziyun/conductor-motion-dataset">Dataset &amp; code</a>
+ <a class="btn" href="#map">Explore the map</a>
+ <a class="btn" href="#quiz">Play the quiz</a>
+ <img class="teaser" src="teaser.png" alt="A concert frame (face blurred) next to the extracted skeleton">
+</div></header>
+
+<section id="map"><div class="wrap">
+ <h2>The map of movement</h2>
+ <p class="lede">Every dot is one skeleton run (1,300 in total). Toggle the feature space:
+ raw motion statistics look like noise — but let a small graph network <i>learn</i> the motion,
+ and five conductors separate almost perfectly.</p>
+ <div class="ctrl sans">
+   Space: <select id="emb"><option value="r">Raw statistics (mixed)</option>
+   <option value="m" selected>Learned embedding (separated)</option></select>
+   Color: <select id="col"><option value="c" selected>Conductor</option><option value="y">Career stage (early→late, per conductor)</option></select>
+   <span id="pairbtns"></span>
+ </div>
+ <div class="row">
+   <div class="card" style="flex:2 1 560px"><div id="plot"></div>
+     <p class="note" id="mapnote"></p></div>
+   <div class="card" style="flex:1 1 280px">
+     <div id="paneltitle" class="sans" style="font-size:14px;color:var(--sub);margin-bottom:8px">Click a dot to watch its skeleton.</div>
+     <canvas class="skel" id="cv1" width="380" height="300"></canvas>
+     <canvas class="skel" id="cv2" width="380" height="300" style="display:none;margin-top:10px"></canvas>
+   </div>
+ </div>
+ <p class="note"><b>Is it just the recording era?</b> Conductor and era are entangled in the data itself
+ (each career occupies its own decades), so no colouring can fully separate them between clusters.
+ The evidence lives <i>inside</i> each cluster: press a decade-pair button — each pair is the <i>same</i>
+ conductor filmed up to 48 years apart, black-and-white film next to 4K, yet direct neighbours on the map.
+ Colour by career stage and the clusters stay largely mixed: a shuffle test puts within-cluster mixing at
+ 82&nbsp;% of pure chance, and what little structure remains is at least partly the conductor's own style
+ changing with age. Fine print: this map uses the released checkpoint, trained on all of these runs;
+ the honest generalization number is 74.3&nbsp;% under session-disjoint cross-validation.</p>
+</div></section>
+
+<section id="quiz"><div class="wrap">
+ <h2>Can <i>you</i> tell who is conducting?</h2>
+ <p class="lede">Watch three seconds of skeleton — physique normalized away, face withheld —
+ and guess. The model gets 74.3&nbsp;% right (chance 21.9&nbsp;%). How about you?</p>
+ <div class="row">
+  <div class="card" style="flex:1 1 340px">
+   <canvas class="skel" id="qcv" width="420" height="340"></canvas>
+   <div class="sans" id="qmeta" style="margin-top:6px;font-size:13.5px;color:var(--sub)"></div>
+  </div>
+  <div class="card sans" style="flex:1 1 340px">
+   <div id="qopts"></div>
+   <div id="qresult" style="margin-top:10px;font-size:15px"></div>
+   <div style="margin-top:14px"><button class="quizopt" id="qnext">Next ▸</button></div>
+   <div style="margin-top:14px">You: <span class="stat" id="qyou">0/0</span>
+        &nbsp;&nbsp; Model: <span class="stat" id="qmodel">0/0</span></div>
+  </div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Where the model gets confused</h2>
+ <p class="lede">Row-normalized confusion over all cross-validation windows (5 seeds summed).
+ Each row: when this conductor is on the podium, who does the model say it is?</p>
+ <div class="card" style="overflow-x:auto"><table class="sans" id="cmtab"></table></div>
+ <p class="note">The diagonal is per-conductor recall. The largest confusion — Dudamel called
+ Abbado in 15.3&nbsp;% of his windows — is also the honest one: both favour large, legato,
+ full-arm gestures. Haitink and Mehta, the most economical and the most angular of the five,
+ are rarely mistaken for anyone.</p>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Beyond the concert stage</h2>
+ <p class="lede">Rehearsal and off-distribution footage was excluded from training and
+ cross-validation <i>by design</i> (<code>--ood-exclude</code>). That makes it a small, honest
+ probe: the model has never seen a rehearsal — no tails, no formal podium, lots of talking and
+ stopping. Here is the released checkpoint's verdict on every such video, one card each.</p>
+ <div class="grid3 sans" id="oodcards"></div>
+ <p class="note">Read this as an anecdote, not a benchmark: 44 usable runs (about five minutes
+ of skeleton in total) across 10 videos is far too little for per-conductor statistics, which is
+ why it stays out of the paper's tables. Bars show the model's probability for each conductor after
+ averaging over the video's runs; the misses cluster on the videos with only seconds of footage.</p>
+</div></section>
+
+<section><div class="wrap">
+ <h2>How the corpus was curated</h2>
+ <p class="lede">In-the-wild footage leaks answers — same stage, same clothes, duplicated uploads.
+ Every merge and exclusion below is recorded with its evidence and shipped with the dataset.
+ Embeddings only ever <i>propose</i>; documents, audio, and human eyes decide.</p>
+ <table class="sans"><tr><th style="width:30px">#</th><th>Step</th><th>How</th><th style="width:90px">Decided by</th></tr>
+ <tr><td class="n">1</td><td>Clip identity review</td><td>Face-embedding gate rejects automatically (97&nbsp;% precision); every acceptance judged by a human</td><td class="n">human</td></tr>
+ <tr><td class="n">2</td><td>Skeleton QC</td><td>Cut at wrist-speed / shoulder-width spikes; keep clean stretches ≥1&nbsp;s; never filter by image quality (quality ≈ era)</td><td class="n">auto</td></tr>
+ <tr><td class="n">3</td><td>Segment identity audit</td><td>Full re-inspection of segments the preview never showed; 42 segments (1.9&nbsp;%) where tracking jumped to a nearby musician excluded</td><td class="n">human</td></tr>
+ <tr><td class="n">4</td><td>Boundary-frame audit</td><td>Grid inspection of segment edges + margin re-experiment (no effect confirmed)</td><td class="n">human+exp</td></tr>
+ <tr><td class="n">5</td><td>Corpus exclusions</td><td>Rehearsals, multi-performance montages, edits held out</td><td class="n">human</td></tr>
+ <tr><td class="n">6</td><td>Title merge</td><td>Normalized-title similarity + opus numbers + a composer guard (never merge across explicit composers)</td><td class="n">auto</td></tr>
+ <tr><td class="n">7</td><td>Audio-correlation merge</td><td>All 8,016 within-conductor pairs, two-stage NCC + 60-s fragment voting for excerpt blind spots</td><td class="n">auto</td></tr>
+ <tr><td class="n">8</td><td>Archival research</td><td>Visually similar candidates checked against DG/Unitel catalogues, festival archives, broadcast records — per-pair sources</td><td class="n">docs</td></tr>
+ <tr><td class="n">9</td><td>Human adjudication</td><td>All 102 candidate pairs judged with evidence on screen; human verdicts overturned 15 research suggestions</td><td class="n">human</td></tr>
+ <tr><td class="n">10</td><td>Filming-cycle merge</td><td>Same orchestra + same documented year ⇒ same group (blocks similar-stage leakage)</td><td class="n">rule</td></tr>
+ <tr><td class="n">11</td><td>True-duplicate drop</td><td>Re-uploads/excerpts of one take: keep only the copy with the most usable footage (22 videos)</td><td class="n">rule</td></tr>
+ <tr><td class="n">12</td><td>Recording-level review</td><td>One card per video, all shots at a glance: keep / out-of-distribution / drop</td><td class="n">human</td></tr>
+ </table>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Numbers</h2>
+ <div class="grid3 sans">
+  <div class="card"><div class="stat">74.3 ± 1.2 %</div>3-second window accuracy, 5-way<br><span class="note">majority-class baseline 21.9 %</span></div>
+  <div class="card"><div class="stat">77.3 ± 2.1 %</div>aggregated per clip</div>
+  <div class="card"><div class="stat">2.7 h</div>curated skeletons — 249 videos, 218 performances, 5 conductors</div>
+  <div class="card"><div class="stat">−7.7 pp</div>without bone-direction channels</div>
+  <div class="card"><div class="stat">−6.6 pp</div>without the 42 hand joints</div>
+ </div>
+</div></section>
+
+<footer><div class="wrap sans">
+ <b>Who Is Conducting?</b> — Jiyun Kim &amp; Dasaem Jeong, Sogang University · ISMIR 2026 LBD submission (under review)<br>
+ Dataset, pipeline code, trained weights and every curation decision file:
+ <a href="https://github.com/franziyun/conductor-motion-dataset">github.com/franziyun/conductor-motion-dataset</a><br>
+ Skeletons only — no source video is redistributed; faces are withheld. Original videos remain the property of their rights holders.
+</div></footer>
+
+<script>
+let DATA=null;
+fetch('demo_data.json').then(r=>r.json()).then(d=>{DATA=d;initMap();initQuiz();initCM();initOOD();});
+const CCOL={"Abbado":"#e4572e","Bernstein":"#4e7be0","Dudamel":"#2eaf6e","Haitink":"#a05cc4","Mehta":"#e0a12e"};
+const SEG=[[0,1],[0,2],[2,4],[1,3],[3,5]];
+function playSkel(cv, traj){
+  const g=cv.getContext('2d'); let f=0,last=0;
+  if(cv._anim) cancelAnimationFrame(cv._anim);
+  function frame(ts){
+    if(ts-last>140){last=ts;f=(f+1)%traj.length;}
+    g.fillStyle='#14100c';g.fillRect(0,0,cv.width,cv.height);
+    const s=cv.width*0.21, ox=cv.width/2, oy=cv.height*0.42;
+    const p=traj[f].map(q=>[ox+q[0]*s,oy+q[1]*s]);
+    g.lineWidth=4;g.strokeStyle='#50e150';g.lineCap='round';
+    SEG.forEach(([a,b])=>{g.beginPath();g.moveTo(...p[a]);g.lineTo(...p[b]);g.stroke();});
+    g.fillStyle='#ffa520';p.forEach(q=>{g.beginPath();g.arc(q[0],q[1],5,0,7);g.fill();});
+    g.lineWidth=1.5;
+    for(const w of [4,5]){g.strokeStyle=w===4?'rgba(80,180,255,.6)':'rgba(255,120,120,.6)';
+      g.beginPath();const a=Math.max(0,f-14);
+      for(let k=a;k<=f;k++){const q=traj[k][w];k===a?g.moveTo(ox+q[0]*s,oy+q[1]*s):g.lineTo(ox+q[0]*s,oy+q[1]*s);}g.stroke();}
+    cv._anim=requestAnimationFrame(frame);
+  }
+  cv._anim=requestAnimationFrame(frame);
+}
+let activePair=-1;
+function initMap(){
+  const P=DATA.points, bt=document.getElementById('pairbtns');
+  DATA.pairs.forEach((pr,k)=>{
+    const b=document.createElement('button'); b.className='pairbtn';
+    b.textContent=`${pr.c} ${pr.gap} yrs`;
+    b.onclick=()=>{activePair=(activePair===k?-1:k);
+      [...bt.children].forEach((x,i)=>x.classList.toggle('on',i===activePair));
+      draw(); if(activePair>=0){showPair(pr);}else{hidePair();}};
+    bt.appendChild(b);
+  });
+  document.getElementById('emb').onchange=draw;
+  document.getElementById('col').onchange=draw;
+  draw();
+}
+function colors(){
+  const P=DATA.points;
+  if(document.getElementById('col').value==='c') return P.map(r=>CCOL[r.c]);
+  const span={};
+  P.forEach(r=>{if(!r.year)return;const s=span[r.c]||(span[r.c]=[r.year,r.year]);
+    s[0]=Math.min(s[0],r.year);s[1]=Math.max(s[1],r.year);});
+  const L=(a,b,t)=>Math.round(a+(b-a)*t);
+  return P.map(r=>{if(!r.year)return'#bbb';const s=span[r.c];
+    const t=s[1]>s[0]?(r.year-s[0])/(s[1]-s[0]):0.5;
+    return '#'+[L(43,214,t),L(94,69,t),L(214,53,t)].map(v=>v.toString(16).padStart(2,'0')).join('');});
+}
+function draw(){
+  const P=DATA.points,e=document.getElementById('emb').value;
+  const kx=e==='r'?'xr':'xm', ky=e==='r'?'yr':'ym';
+  const traces=[{x:P.map(r=>r[kx]),y:P.map(r=>r[ky]),mode:'markers',type:'scatter',
+    marker:{size:5,color:colors(),opacity:0.75},
+    text:P.map(r=>`${r.c} · ${r.year||'?'} · ${r.dur}s`),hoverinfo:'text'}];
+  if(activePair>=0){const pr=DATA.pairs[activePair],a=P[pr.a],b=P[pr.b];
+    traces.push({x:[a[kx],b[kx]],y:[a[ky],b[ky]],mode:'lines+markers',type:'scatter',
+      line:{color:'#1c1c28',width:2,dash:'dot'},marker:{size:12,symbol:'circle-open',
+      color:'#1c1c28',line:{width:2}},hoverinfo:'skip'});}
+  Plotly.newPlot('plot',traces,
+    {margin:{l:28,r:8,t:8,b:28},paper_bgcolor:'#fff',plot_bgcolor:'#fff',showlegend:false,
+     xaxis:{color:'#555',gridcolor:'#eee'},yaxis:{color:'#555',gridcolor:'#eee'}},
+    {responsive:true,displayModeBar:false});
+  document.getElementById('plot').on('plotly_click',ev=>{
+    const i=ev.points[0].pointIndex; if(ev.points[0].curveNumber!==0)return;
+    showOne(i);});
+  document.getElementById('mapnote').textContent = e==='r'
+   ? 'Raw per-run statistics (means/deviations of position, velocity, acceleration, bone direction): 10 nearest neighbours share the conductor only 46 % of the time.'
+   : 'The trained network’s 128-d embedding: 10 nearest neighbours share the conductor 99 % of the time.';
+}
+function showOne(i){
+  const r=DATA.points[i];
+  document.getElementById('paneltitle').textContent=`${r.c} · ${r.year||'year unknown'} · ${r.dur}s`;
+  document.getElementById('cv2').style.display='none';
+  playSkel(document.getElementById('cv1'), r.traj);
+}
+function showPair(pr){
+  const a=DATA.points[pr.a],b=DATA.points[pr.b];
+  document.getElementById('paneltitle').textContent=
+    `${pr.c}: ${a.year} (top) vs ${b.year} (bottom) — ${pr.gap} years apart, neighbours on the map`;
+  playSkel(document.getElementById('cv1'), a.traj);
+  const c2=document.getElementById('cv2'); c2.style.display='block';
+  playSkel(c2, b.traj);
+}
+function hidePair(){document.getElementById('cv2').style.display='none';
+  document.getElementById('paneltitle').textContent='Click a dot to watch its skeleton.';}
+
+function initCM(){
+  const cm=DATA.cm, t=document.getElementById('cmtab');
+  let h='<tr><th style="border:none;background:none"></th>'+
+    cm.labels.map(l=>`<th class="n" style="color:${CCOL[l]}">${l}</th>`).join('')+'</tr>';
+  cm.rows.forEach((row,i)=>{
+    h+=`<tr><th style="color:${CCOL[cm.labels[i]]}">${cm.labels[i]} <span class="note">is conducting →</span></th>`;
+    row.forEach((v,j)=>{
+      const a=Math.min(0.92, v/100*(i===j?1:3));
+      const bg=i===j?`rgba(46,134,95,${a})`:`rgba(197,85,85,${a})`;
+      const fg=a>0.55?'#fff':'inherit';
+      h+=`<td class="n" style="background:${bg};color:${fg}${i===j?';font-weight:bold':''}">${v.toFixed(1)}</td>`;
+    });
+    h+='</tr>';
+  });
+  t.innerHTML=h;
+}
+function initOOD(){
+  const box=document.getElementById('oodcards');
+  DATA.ood.forEach((o,k)=>{
+    const ok=o.pred===o.c;
+    const card=document.createElement('div'); card.className='card';
+    let bars='';
+    Object.entries(o.probs).sort((a,b)=>b[1]-a[1]).forEach(([c,p])=>{
+      bars+=`<div style="display:flex;align-items:center;gap:6px;margin:3px 0;font-size:12.5px">
+        <span style="width:66px;color:${CCOL[c]}">${c}</span>
+        <div style="flex:1;background:#eef0f3;border-radius:4px;height:12px">
+          <div style="width:${Math.round(p*100)}%;height:12px;border-radius:4px;background:${CCOL[c]};opacity:.85"></div>
+        </div><span style="width:36px;text-align:right">${Math.round(p*100)}%</span></div>`;
+    });
+    card.innerHTML=`<canvas class="skel" width="300" height="200" id="oodcv${k}"></canvas>
+      <div style="margin-top:8px;font-size:14px"><b style="color:${CCOL[o.c]}">${o.c}</b>
+       · rehearsal / OOD · ${o.secs>=90?(o.secs/60).toFixed(1)+' min':o.secs+' s'} of skeleton, ${o.runs} run${o.runs>1?'s':''}<br>
+       Model says: <b style="color:${ok?'var(--acc)':'#c55'}">${o.pred}</b>
+       <span style="font-size:12px;padding:1px 7px;border-radius:9px;color:#fff;background:${ok?'var(--acc)':'#c55'}">${ok?'correct':'wrong'}</span></div>
+      <div style="margin-top:6px">${bars}</div>`;
+    box.appendChild(card);
+    requestAnimationFrame(()=>playSkel(document.getElementById('oodcv'+k), o.traj));
+  });
+}
+
+let qOrder=[],qPos=0,qDone=false,youOK=0,mdlOK=0,qN=0;
+function initQuiz(){
+  qOrder=[...DATA.quiz]; for(let i=qOrder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qOrder[i],qOrder[j]]=[qOrder[j],qOrder[i]];}
+  document.getElementById('qnext').onclick=nextQ; nextQ();
+}
+function nextQ(){
+  if(!qOrder.length)return;
+  qPos=(qPos+1)%qOrder.length; qDone=false;
+  const q=qOrder[qPos], r=DATA.points[q.i];
+  playSkel(document.getElementById('qcv'), r.traj);
+  document.getElementById('qmeta').textContent='';
+  document.getElementById('qresult').textContent='';
+  const box=document.getElementById('qopts'); box.innerHTML='';
+  Object.keys(CCOL).forEach(c=>{
+    const b=document.createElement('button'); b.className='quizopt'; b.textContent=c;
+    b.onclick=()=>answer(c,b); box.appendChild(b);});
+}
+function answer(c,btn){
+  if(qDone)return; qDone=true; qN++;
+  const q=qOrder[qPos], r=DATA.points[q.i], truth=r.c;
+  [...document.getElementById('qopts').children].forEach(b=>{
+    if(b.textContent===truth)b.classList.add('right');
+    else if(b===btn)b.classList.add('wrong');});
+  if(c===truth)youOK++; if(q.pred===truth)mdlOK++;
+  document.getElementById('qyou').textContent=`${youOK}/${qN}`;
+  document.getElementById('qmodel').textContent=`${mdlOK}/${qN}`;
+  const conf=Math.round((q.probs[q.pred]||0)*100);
+  document.getElementById('qresult').innerHTML=
+    `It was <b>${truth}</b> (${r.year||'?'}). The model said <b>${q.pred}</b> (${conf} % confident) — ${q.pred===truth?'correct':'wrong'}.`;
+  document.getElementById('qmeta').textContent=`run ${r.run}`;
+}
+</script></body></html>

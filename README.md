@@ -4,6 +4,8 @@ Companion release for *"Who Is Conducting? A Conductor Skeleton Dataset and
 Identifiability Study from In-the-Wild Orchestral Concert Video"* (ISMIR 2026
 LBD submission).
 
+**Interactive demo:** [franziyun.github.io/conductor-motion-dataset](https://franziyun.github.io/conductor-motion-dataset/) — embedding map, guess-the-conductor quiz, confusion matrix, and out-of-distribution rehearsal probe.
+
 2D skeleton sequences of five orchestra conductors — **Abbado, Bernstein,
 Dudamel, Haitink, Mehta** — extracted from in-the-wild concert videos spanning
 six decades, with quality-control metadata, the identification code, and
