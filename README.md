@@ -1,7 +1,7 @@
 # Conductor Motion Dataset — skeletons, code, and weights
 
 Companion release for *"Who Is Conducting? A Conductor Skeleton Dataset and
-Identifiability Study from In-the-Wild Orchestral Concert Video"* (ISMIR 2026
+Identification Study from In-the-Wild Orchestral Concert Video"* (ISMIR 2026
 LBD submission).
 
 **Interactive demo:** [franziyun.github.io/conductor-motion-dataset](https://franziyun.github.io/conductor-motion-dataset/) — embedding map, guess-the-conductor quiz, confusion matrix, and out-of-distribution rehearsal probe.
@@ -16,10 +16,10 @@ trained classifier weights.
 
 | | |
 |---|---|
-| Released runs (human-verified identity) | 1,447 (275 videos, ~328k frames, ~3.3 h) |
-| Paper corpus (subset used in the experiments) | 1,300 runs · 249 videos · 218 performances · 2.7 h of curated segments |
+| Paper corpus (used in the experiments) | 249 videos · 218 performances · 1,300 runs · 2.7 h of curated segments |
+| Full release (human-verified identity) | 1,447 runs (275 videos, ~328k frames, ~3.3 h), a superset of the paper corpus |
 | Keypoints | 133 (COCO-WholeBody, RTMW-m) — facial 68 zeroed |
-| Identification accuracy (paper protocol, 5 conductors) | **74.3 ± 1.2 %** per 3-s window (majority-class baseline 21.9 %) · 77.3 ± 2.1 % per clip · macro F1 0.740 |
+| Identification (paper protocol, 5 conductors) | **macro F1 0.740 ± 0.011** per 3-s window · accuracy 74.3 ± 1.2 % per window (majority-class baseline 21.9 %), 77.3 ± 2.1 % per clip |
 
 The paper corpus is marked in `data/run_index.csv` via the `in_paper_corpus`
 column; runs excluded from it carry the reason in `excluded_as`
@@ -103,7 +103,7 @@ PYTHONPATH=code/src python code/scripts/static_frame_probe.py \
 ```
 
 Step 3 reproduces the paper's corpus and windows exactly (2,973 evaluation
-windows over 249 videos); accuracy matches to within GPU run-to-run noise.
+windows over 249 videos); scores match to within GPU run-to-run noise.
 The probe in step 4 uses scikit-learn models, whose exact numbers shift by a
 couple of points across scikit-learn versions.
 
@@ -131,9 +131,10 @@ model.load_state_dict(ck["state_dict"]); model.eval()
 ```
 
 `weights/resgcn_5class.pt` is trained on **all** paper-corpus runs under the
-paper protocol (the usual convention for released checkpoints). The
-74.3 % / 77.3 % figures come from the cross-validated protocol above, not from
-this single checkpoint; the checkpoint's `cv_reference` field records this.
+paper protocol (the usual convention for released checkpoints). The reported
+scores (macro F1 0.740; accuracy 74.3 % / 77.3 %) come from the cross-validated
+protocol above, not from this single checkpoint; the checkpoint's
+`cv_reference` field records this.
 
 ## QC philosophy (why the data looks the way it does)
 
@@ -158,10 +159,10 @@ this entry will be updated upon publication. Until then, please cite:
 ```bibtex
 @misc{kim2026conductor,
   title        = {Who Is Conducting? A Conductor Skeleton Dataset and
-                  Identifiability Study from In-the-Wild Orchestral Concert Video},
+                  Identification Study from In-the-Wild Orchestral Concert Video},
   author       = {Kim, Jiyun and Jeong, Dasaem},
   year         = {2026},
-  howpublished = {\url{https://github.com/franziyun/conductor-motion-dataset}},
+  howpublished = {\url{https://github.com/MALerLab/conductor-motion-dataset}},
   note         = {Submitted to the ISMIR 2026 Late-Breaking Demo session}
 }
 ```
