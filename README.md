@@ -18,7 +18,7 @@ trained classifier weights.
 |---|---|
 | Released runs (human-verified identity) | 1,447 (275 videos, ~328k frames, ~3.3 h) |
 | Paper corpus (subset used in the experiments) | 1,300 runs · 249 videos · 218 performances · 2.7 h of curated segments |
-| Keypoints | 133 (COCO-WholeBody, RTMPose) — facial 68 zeroed |
+| Keypoints | 133 (COCO-WholeBody, RTMW-m) — facial 68 zeroed |
 | Identification accuracy (paper protocol, 5 conductors) | **74.3 ± 1.2 %** per 3-s window (majority-class baseline 21.9 %) · 77.3 ± 2.1 % per clip · macro F1 0.740 |
 
 The paper corpus is marked in `data/run_index.csv` via the `in_paper_corpus`
