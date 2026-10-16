@@ -141,7 +141,10 @@ protocol above, not from this single checkpoint; the checkpoint's
 Pose spikes and identity switches are detected and cut, but **image quality is
 never a reason to discard**: in a corpus spanning six decades, quality is a
 proxy for the recording era, and filtering on it would curate the dataset by
-era. QC decisions live in metadata only — thresholds can be revised without
+era. For the same reason, low-confidence stretches are never split at detected
+jumps: jump detection is unreliable there, and spurious jumps would cut older
+footage into sub-second fragments that would then be dropped. QC decisions
+live in metadata only — thresholds can be revised without
 re-running pose estimation.
 
 ## License
